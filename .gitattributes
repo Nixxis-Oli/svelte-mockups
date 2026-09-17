@@ -1,0 +1,4 @@
+# The CI runner is Linux; normalise line endings so checkouts match.
+* text=auto eol=lf
+*.png binary
+*.svg text eol=lf

@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Pages needs these; GITHUB_TOKEN gets no more than required.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; queued runs supersede rather than cancel mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build the three mockups
+        run: |
+          set -e
+          mkdir -p _site
+          cp index.html _site/index.html
+
+          for project in skeleton shadcn ark; do
+            cd "$project-mock"
+            npm ci
+            # Project pages are served from /<repo>/, and each mockup from a
+            # subdirectory of that.
+            BASE_PATH="/${GITHUB_REPOSITORY#*/}/$project" npm run build
+            cd ..
+            cp -r "$project-mock/build" "_site/$project"
+          done
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
