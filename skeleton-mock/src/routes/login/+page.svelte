@@ -70,7 +70,7 @@
 
 				<label class="label">
 					<span class="label-text">Password</span>
-					<input class="input" type="password" name="password" placeholder="********" required />
+					<input class="input" type="password" name="password" placeholder="********" bind:value={password} required />
 				</label>
 
 				{#if error}

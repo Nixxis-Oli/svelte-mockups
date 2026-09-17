@@ -73,7 +73,7 @@
 
 				<div class="space-y-2">
 					<Label for="password">Password</Label>
-					<Input id="password" type="password" name="password" placeholder="********" required />
+					<Input id="password" type="password" name="password" placeholder="********" bind:value={password} required />
 				</div>
 
 				{#if error}
