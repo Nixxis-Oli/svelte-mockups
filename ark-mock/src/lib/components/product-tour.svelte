@@ -68,7 +68,11 @@
 	<Portal>
 		<!-- Position and z-index come from Zag and from the tour rules in app.css;
 			 only the paint is ours. -->
-		<Tour.Backdrop class="bg-black/50" />
+		<!-- backdrop-filter is clipped by the spotlight cut-out Zag draws with
+			 clip-path, so the highlighted element stays sharp while everything
+			 around it blurs. A lighter tint than a plain grey veil, since the
+			 blur already separates foreground from background. -->
+		<Tour.Backdrop class="bg-black/40 backdrop-blur-sm" />
 		<Tour.Spotlight class="rounded-lg outline-2 outline-white/70" />
 
 		<!--
