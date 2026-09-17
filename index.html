@@ -236,7 +236,8 @@
 		<main>
 			<h1>Svelte UI mockups</h1>
 			<p class="lead">
-				The same admin screens built three times, to compare component libraries. Ranked best first.
+				The same admin screens built twice, to compare the two shortlisted component libraries.
+				Ranked best first.
 				Sign in to any demo with any email and password.
 			</p>
 
@@ -286,15 +287,14 @@
 								<li>bits-ui and shadcn-svelte share one lead maintainer (63% and 55% of commits):
 									one person, two layers</li>
 								<li>No tour component — this demo borrows Ark's</li>
-								<li>Most files to maintain after Ark: 11 component files here against 2 for
-									Skeleton</li>
+								<li>11 component files to maintain here, all written and owned by you</li>
 								<li>Copied code means no automatic upstream fixes</li>
 							</ul>
 						</div>
 					</div>
 
 					<p class="longevity">
-						<strong>Longevity for Svelte:</strong> the safest of the three. bits-ui exists only for
+						<strong>Longevity for Svelte:</strong> the safer of the two. bits-ui exists only for
 						Svelte, so its 3.85M monthly downloads are not borrowed from a React ecosystem. And the
 						copy-paste model is itself insurance: an abandonment costs you upstream fixes, not a
 						working application.
@@ -349,7 +349,7 @@
 									against 3.86M for React</li>
 								<li>Ships no styling at all — every component is yours to dress</li>
 								<li>Its Tour needed two undocumented CSS fixes to work at all in this build</li>
-								<li>The most verbose: 495 lines of component code here against 81 for Skeleton</li>
+								<li>More component code to carry: 495 lines here against 327 for shadcn</li>
 							</ul>
 						</div>
 					</div>
@@ -357,72 +357,11 @@
 					<p class="longevity">
 						<strong>Longevity for Svelte:</strong> the engine is the safest bet of all — Zag.js pulls
 						5.09M downloads a month and powers Chakra, Ark and Skeleton alike, so it outlives any one
-						wrapper. The risk is specific to Svelte: the binding is a minority citizen in its own
+						wrapper, this one included. The risk is specific to Svelte: the binding is a minority citizen in its own
 						ecosystem and could be deprioritised against React.
 					</p>
 
 					<a class="demo" href="./ark/">Open the demo</a>
-				</li>
-
-				<li>
-					<div class="head">
-						<span class="rank">3</span>
-						<h2>Skeleton</h2>
-						<a href="https://www.skeleton.dev/" target="_blank" rel="noopener noreferrer">
-							skeleton.dev ↗
-						</a>
-					</div>
-					<p class="summary">
-						A complete design system installed as a dependency: themes, utility classes and
-						components, decided for you.
-					</p>
-
-					<dl class="metrics">
-						<div>
-							<dt>Updates, 6 months</dt>
-							<dd>6 <small>releases</small></dd>
-						</div>
-						<div>
-							<dt>Users</dt>
-							<dd>155 680 <small>downloads / month</small></dd>
-						</div>
-						<div>
-							<dt>Stars</dt>
-							<dd>6 061 <small>skeleton repo</small></dd>
-						</div>
-					</dl>
-
-					<div class="args">
-						<div class="pros">
-							<h3>For</h3>
-							<ul>
-								<li>Fewest files to maintain: 2 component files here against 11 and 12</li>
-								<li>24 themes provided; switching one is a single word</li>
-								<li>Smallest JavaScript bundle: 192 kB against 339 and 382</li>
-								<li>Runs on Zag.js, so the engine underneath is as safe as Ark's</li>
-							</ul>
-						</div>
-						<div class="cons">
-							<h3>Against</h3>
-							<ul>
-								<li>Smallest install base: 155 680 a month, 25× below bits-ui</li>
-								<li>Slowest cadence of the three: 6 releases in 6 months</li>
-								<li>Its interactive components ship no styling — the CSS layer covers forms,
-									buttons, cards and tables only</li>
-								<li>No theme is black and white; the least colourful, hamlindigo, still sits at
-									chroma 0.052</li>
-							</ul>
-						</div>
-					</div>
-
-					<p class="longevity">
-						<strong>Longevity for Svelte:</strong> the weakest position, for one structural reason.
-						It is the only one of the three that owns your visual layer — with shadcn and Ark the CSS
-						is in your repo, so an abandonment is survivable. Here you would inherit a design system
-						you did not write. Its Zag engine would survive; its styling would not.
-					</p>
-
-					<a class="demo" href="./skeleton/">Open the demo</a>
 				</li>
 			</ol>
 

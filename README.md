@@ -1,14 +1,31 @@
-# Svelte UI mockups — Skeleton vs shadcn vs Ark UI
+# Svelte UI mockups — shadcn-svelte vs Ark UI
 
-Three throwaway SvelteKit apps built to compare the candidate component approaches
+Two throwaway SvelteKit apps built to compare the shortlisted component approaches
 for an admin-app rewrite. Same features, same data, same non-UI code — only the
 component layer differs.
 
 | | Library | Styling model | Tour |
 |---|---|---|---|
-| `skeleton-mock` | Skeleton 5 | design system provided (24 themes) | via Ark |
 | `shadcn-mock` | bits-ui + shadcn conventions | tokens authored in `app.css` | via Ark |
 | `ark-mock` | Ark UI | tokens authored in `app.css` | native |
+
+A third mockup on Skeleton was built and then dropped once the shortlist narrowed.
+
+## Why the two look identical
+
+They are meant to. The comparison is only meaningful if the design is held constant,
+so both apps share the same token file, the same layout markup and the same
+Button / Card / Badge / Input / Label — Ark and bits-ui both supply behaviour, not
+looks, so those primitives are pure styling either way.
+
+Measured across the two `src` trees: **32 of 40 files are byte-identical**, and the
+two `app.css` files differ by **zero CSS rules** (only their comments differ). The
+real divergence is four behavioural components — avatar, slider, switch, select —
+plus the pages that consume them.
+
+The one visible difference is the **model dropdown** on a chat bot's edit screen:
+shadcn falls back to a styled native `<select>`, Ark renders its own listbox. Open
+one in each tab to see it.
 
 ## Run locally
 
@@ -27,7 +44,7 @@ Each app prerenders to **14 static pages** in `build/`. Any static host will ser
 that directory as-is. For a host serving from a subdirectory (GitHub project pages):
 
 ```bash
-BASE_PATH=/your-repo-name npm run build
+BASE_PATH=/your-repo-name/shadcn npm run build
 ```
 
 ## The data is a snapshot
@@ -51,32 +68,32 @@ Consequences, all deliberate:
 - `/login` — fake sign-in.
 - Left sidebar, collapsible **offcanvas** (button or Ctrl/Cmd+B) and **resizable**
   by dragging its right edge (200–480px, arrow keys, double-click to reset). The
-  choice persists in `localStorage`.
+  choice persists in `localStorage`. Its header links back to the index page.
 - A sticky breadcrumb above every screen, derived from the URL and the loaded record.
 - `/chatbots` — the five contexts with a derived description and their timestamps.
 - `/chatbots/[id]` — edit screen: five personality sliders (1–5), model selects,
   a max-tokens slider, a debug switch, and a read-only metadata sidebar.
-- A theme picker at the bottom of the sidebar, plus a light/dark toggle.
+- A palette picker at the bottom of the sidebar, plus a light/dark toggle. The
+  default palette is shadcn's own `neutral` — chroma 0 throughout.
 - **Take the tour** on the chat bots screen — a guided walkthrough with backdrop
-  and spotlight, from Ark UI's `Tour`.
+  and spotlight, from Ark UI's `Tour`. `shadcn-mock` installs Ark solely for this.
 
 ## Notes worth keeping
 
-**Skeleton and Ark share an engine.** Both are built on Zag.js (`skeleton-mock` and
-`ark-mock` each install ~50–77 `@zag-js` packages); bits-ui is an independent
-implementation. Adding Ark to the Skeleton app deduped to a single set of Zag
-packages rather than stacking two engines.
+**Ark and Skeleton share an engine.** Both are built on Zag.js; bits-ui is an
+independent implementation. Adding Ark to a Zag-based app dedupes to a single set of
+`@zag-js` packages rather than stacking two engines.
 
 **Ark's Tour needs two undocumented CSS fixes.** Zag only injects positioning styles
 for `tooltip` steps, so a `dialog` step must be centred by the app; and the
 positioner's inline `z-index: var(--z-index)` resolves to an invalid `calc()` unless
 the app defines `--tour-z-index`. Both are handled in each `app.css`.
 
-**No Skeleton theme is black and white.** Measured across all 24: `hamlindigo` has
-the least colourful primary ramp (mean chroma 0.052) against shadcn's default
-`neutral`, which is chroma 0 throughout.
+**Licensing.** Everything here is MIT, except Lucide icons (ISC, with the
+Feather-derived icons under MIT). All permissive, all fine for commercial use, with
+the usual attribution clause.
 
 ## Versions
 
 SvelteKit 2.70 · Svelte 5.57 · Vite 8.3 · Tailwind 4.3 ·
-Skeleton 5.0.1 · bits-ui 2.19.2 · Ark UI 5.24.2
+bits-ui 2.19.2 · Ark UI 5.24.2
