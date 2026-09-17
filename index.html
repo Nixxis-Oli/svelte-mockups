@@ -33,7 +33,7 @@
 				padding: 3rem 1.5rem;
 				background: var(--bg);
 				color: var(--fg);
-				font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+				font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', sans-serif;
 			}
 
 			main {
@@ -60,30 +60,48 @@
 				gap: 1rem;
 			}
 
-			a.card {
-				display: block;
-				padding: 1.25rem 1.5rem;
+			li {
 				border: 1px solid var(--border);
 				border-radius: 0.75rem;
 				background: var(--card);
-				color: inherit;
-				text-decoration: none;
 				transition: border-color 0.15s;
 			}
 
-			a.card:hover,
-			a.card:focus-visible {
+			li:hover,
+			li:focus-within {
 				border-color: var(--fg);
 			}
 
-			a.card strong {
+			a.demo {
+				display: block;
+				padding: 1.25rem 1.5rem 0.75rem;
+				color: inherit;
+				text-decoration: none;
+			}
+
+			a.demo strong {
 				display: block;
 				font-size: 1.05rem;
 			}
 
-			a.card span {
+			a.demo span {
 				color: var(--muted);
 				font-size: 0.9rem;
+			}
+
+			p.official {
+				margin: 0;
+				padding: 0 1.5rem 1.15rem;
+				font-size: 0.85rem;
+			}
+
+			p.official a {
+				color: var(--muted);
+			}
+
+			p.official a:hover,
+			p.official a:focus-visible {
+				color: var(--fg);
 			}
 
 			footer {
@@ -105,28 +123,44 @@
 
 			<ul>
 				<li>
-					<a class="card" href="./skeleton/">
+					<a class="demo" href="./skeleton/">
 						<strong>Skeleton</strong>
 						<span>Design system provided: 24 themes, utility classes, fewest files to maintain.</span>
 					</a>
+					<p class="official">
+						<a href="https://www.skeleton.dev/" target="_blank" rel="noopener noreferrer">
+							skeleton.dev ↗
+						</a>
+					</p>
 				</li>
 				<li>
-					<a class="card" href="./shadcn/">
+					<a class="demo" href="./shadcn/">
 						<strong>shadcn-svelte (bits-ui)</strong>
 						<span>Design tokens authored in the app; components copied in and owned.</span>
 					</a>
+					<p class="official">
+						<a href="https://www.shadcn-svelte.com/" target="_blank" rel="noopener noreferrer">
+							shadcn-svelte.com ↗
+						</a>
+					</p>
 				</li>
 				<li>
-					<a class="card" href="./ark/">
+					<a class="demo" href="./ark/">
 						<strong>Ark UI</strong>
 						<span>Widest headless catalogue: real listbox, native Tour, no styling supplied.</span>
 					</a>
+					<p class="official">
+						<a href="https://ark-ui.com/" target="_blank" rel="noopener noreferrer">
+							ark-ui.com ↗
+						</a>
+					</p>
 				</li>
 			</ul>
 
 			<footer>
 				Static demos. The data is a fixed snapshot bundled with the build - no API is called, the
-				login is decorative and nothing is saved.
+				login is decorative and nothing is saved. Click the ConnectionCode header inside any demo to
+				come back here.
 			</footer>
 		</main>
 	</body>

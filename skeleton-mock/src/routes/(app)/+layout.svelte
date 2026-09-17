@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { introHref } from '$lib/paths';
 	import { page } from '$app/state';
 	import { buildBreadcrumbs } from '$lib/breadcrumbs';
 	import ThemeSwitcher from '$lib/components/theme-switcher.svelte';
@@ -63,7 +64,11 @@
 			{sidebar.dragging ? '' : 'transition-[left] duration-200 ease-linear'}
 			{sidebar.collapsed ? 'left-[calc(var(--sidebar-width)*-1)]' : 'left-0'}"
 	>
-		<div class="border-surface-200-800 flex h-[4.25rem] shrink-0 items-center gap-3 border-b px-5">
+		<a
+			href={introHref}
+			title="Back to the mockup index"
+			class="border-surface-200-800 hover:preset-tonal-surface flex h-[4.25rem] shrink-0 items-center gap-3 border-b px-5 transition-colors"
+		>
 			<div
 				class="preset-filled-primary-500 flex size-9 shrink-0 items-center justify-center rounded-lg font-bold"
 			>
@@ -73,7 +78,7 @@
 				<p class="truncate font-semibold">ConnectionCode</p>
 				<p class="text-surface-600-400 text-xs">Administration</p>
 			</div>
-		</div>
+		</a>
 
 		<nav class="flex-1 space-y-6 overflow-y-auto p-4">
 			{#each navSections as section (section.title)}
