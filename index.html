@@ -10,8 +10,11 @@
 				--bg: #ffffff;
 				--fg: #171717;
 				--muted: #737373;
+				--faint: #a3a3a3;
 				--border: #e5e5e5;
 				--card: #fafafa;
+				--good: #15803d;
+				--bad: #b91c1c;
 			}
 
 			@media (prefers-color-scheme: dark) {
@@ -19,8 +22,11 @@
 					--bg: #0a0a0a;
 					--fg: #fafafa;
 					--muted: #a3a3a3;
+					--faint: #737373;
 					--border: #262626;
 					--card: #171717;
+					--good: #4ade80;
+					--bad: #f87171;
 				}
 			}
 
@@ -37,7 +43,7 @@
 			}
 
 			main {
-				max-width: 46rem;
+				max-width: 52rem;
 				margin: 0 auto;
 			}
 
@@ -52,56 +58,165 @@
 				color: var(--muted);
 			}
 
-			ul {
+			ol {
 				list-style: none;
 				margin: 0;
 				padding: 0;
 				display: grid;
-				gap: 1rem;
+				gap: 1.5rem;
 			}
 
 			li {
 				border: 1px solid var(--border);
 				border-radius: 0.75rem;
 				background: var(--card);
-				transition: border-color 0.15s;
+				padding: 1.5rem;
 			}
 
-			li:hover,
-			li:focus-within {
-				border-color: var(--fg);
+			.head {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: baseline;
+				gap: 0.5rem 0.75rem;
 			}
 
-			a.demo {
-				display: block;
-				padding: 1.25rem 1.5rem 0.75rem;
-				color: inherit;
+			.rank {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 1.6rem;
+				height: 1.6rem;
+				border-radius: 50%;
+				background: var(--fg);
+				color: var(--bg);
+				font-size: 0.85rem;
+				font-weight: 700;
+				flex: none;
+			}
+
+			h2 {
+				margin: 0;
+				font-size: 1.15rem;
+			}
+
+			.head a {
+				color: var(--faint);
+				font-size: 0.85rem;
 				text-decoration: none;
 			}
 
-			a.demo strong {
-				display: block;
-				font-size: 1.05rem;
+			.head a:hover,
+			.head a:focus-visible {
+				color: var(--fg);
+				text-decoration: underline;
 			}
 
-			a.demo span {
+			p.summary {
+				margin: 0.5rem 0 1.25rem;
 				color: var(--muted);
+				font-size: 0.95rem;
+			}
+
+			dl.metrics {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+				gap: 1rem;
+				margin: 0 0 1.25rem;
+				padding: 1rem 0;
+				border-top: 1px solid var(--border);
+				border-bottom: 1px solid var(--border);
+			}
+
+			dl.metrics dt {
+				color: var(--faint);
+				font-size: 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 0.04em;
+			}
+
+			dl.metrics dd {
+				margin: 0.15rem 0 0;
+				font-size: 1.2rem;
+				font-weight: 600;
+				font-variant-numeric: tabular-nums;
+			}
+
+			dl.metrics dd small {
+				display: block;
+				font-size: 0.75rem;
+				font-weight: 400;
+				color: var(--faint);
+			}
+
+			.args {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+				gap: 1.25rem;
+			}
+
+			.args h3 {
+				margin: 0 0 0.4rem;
+				font-size: 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 0.04em;
+				color: var(--faint);
+			}
+
+			.args ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: grid;
+				gap: 0.4rem;
 				font-size: 0.9rem;
 			}
 
-			p.official {
-				margin: 0;
-				padding: 0 1.5rem 1.15rem;
-				font-size: 0.85rem;
+			.args li {
+				border: 0;
+				background: none;
+				padding: 0 0 0 1.2rem;
+				position: relative;
+				border-radius: 0;
 			}
 
-			p.official a {
+			.args li::before {
+				position: absolute;
+				left: 0;
+				font-weight: 700;
+			}
+
+			.pros li::before {
+				content: '+';
+				color: var(--good);
+			}
+
+			.cons li::before {
+				content: '−';
+				color: var(--bad);
+			}
+
+			p.longevity {
+				margin: 1.25rem 0 1.5rem;
+				padding: 0.85rem 1rem;
+				border-left: 3px solid var(--border);
 				color: var(--muted);
+				font-size: 0.88rem;
 			}
 
-			p.official a:hover,
-			p.official a:focus-visible {
-				color: var(--fg);
+			a.demo {
+				display: inline-block;
+				padding: 0.55rem 1.1rem;
+				border-radius: 0.5rem;
+				background: var(--fg);
+				color: var(--bg);
+				font-size: 0.9rem;
+				font-weight: 600;
+				text-decoration: none;
+			}
+
+			a.demo:hover,
+			a.demo:focus-visible {
+				opacity: 0.85;
 			}
 
 			footer {
@@ -111,56 +226,217 @@
 				color: var(--muted);
 				font-size: 0.85rem;
 			}
+
+			footer p {
+				margin: 0 0 0.75rem;
+			}
 		</style>
 	</head>
 	<body>
 		<main>
 			<h1>Svelte UI mockups</h1>
 			<p class="lead">
-				The same admin screens built three times, to compare component libraries. Sign in with any
-				email and password.
+				The same admin screens built three times, to compare component libraries. Ranked best first.
+				Sign in to any demo with any email and password.
 			</p>
 
-			<ul>
+			<ol>
 				<li>
-					<a class="demo" href="./skeleton/">
-						<strong>Skeleton</strong>
-						<span>Design system provided: 24 themes, utility classes, fewest files to maintain.</span>
-					</a>
-					<p class="official">
-						<a href="https://www.skeleton.dev/" target="_blank" rel="noopener noreferrer">
-							skeleton.dev ↗
-						</a>
-					</p>
-				</li>
-				<li>
-					<a class="demo" href="./shadcn/">
-						<strong>shadcn-svelte (bits-ui)</strong>
-						<span>Design tokens authored in the app; components copied in and owned.</span>
-					</a>
-					<p class="official">
+					<div class="head">
+						<span class="rank">1</span>
+						<h2>shadcn-svelte</h2>
 						<a href="https://www.shadcn-svelte.com/" target="_blank" rel="noopener noreferrer">
 							shadcn-svelte.com ↗
 						</a>
+					</div>
+					<p class="summary">
+						A catalogue you copy into your own repo, on the bits-ui behaviour layer. You own the
+						markup and the design tokens.
 					</p>
+
+					<dl class="metrics">
+						<div>
+							<dt>Updates, 6 months</dt>
+							<dd>12 <small>bits-ui releases</small></dd>
+						</div>
+						<div>
+							<dt>Users</dt>
+							<dd>3.85M <small>downloads / month</small></dd>
+						</div>
+						<div>
+							<dt>Stars</dt>
+							<dd>9 131 <small>shadcn-svelte repo</small></dd>
+						</div>
+					</dl>
+
+					<div class="args">
+						<div class="pros">
+							<h3>For</h3>
+							<ul>
+								<li>By far the largest Svelte install base — and bits-ui targets Svelte only, so
+									that figure is all Svelte usage</li>
+								<li>You own the component code: if the project stopped, your app keeps working</li>
+								<li>Richest catalogue of finished pieces: Data Table, Chart, Sidebar, Sonner</li>
+								<li>Steady cadence, a release roughly every two weeks</li>
+							</ul>
+						</div>
+						<div class="cons">
+							<h3>Against</h3>
+							<ul>
+								<li>bits-ui and shadcn-svelte share one lead maintainer (63% and 55% of commits):
+									one person, two layers</li>
+								<li>No tour component — this demo borrows Ark's</li>
+								<li>Most files to maintain after Ark: 11 component files here against 2 for
+									Skeleton</li>
+								<li>Copied code means no automatic upstream fixes</li>
+							</ul>
+						</div>
+					</div>
+
+					<p class="longevity">
+						<strong>Longevity for Svelte:</strong> the safest of the three. bits-ui exists only for
+						Svelte, so its 3.85M monthly downloads are not borrowed from a React ecosystem. And the
+						copy-paste model is itself insurance: an abandonment costs you upstream fixes, not a
+						working application.
+					</p>
+
+					<a class="demo" href="./shadcn/">Open the demo</a>
 				</li>
+
 				<li>
-					<a class="demo" href="./ark/">
-						<strong>Ark UI</strong>
-						<span>Widest headless catalogue: real listbox, native Tour, no styling supplied.</span>
-					</a>
-					<p class="official">
+					<div class="head">
+						<span class="rank">2</span>
+						<h2>Ark UI</h2>
 						<a href="https://ark-ui.com/" target="_blank" rel="noopener noreferrer">
 							ark-ui.com ↗
 						</a>
+					</div>
+					<p class="summary">
+						The widest headless catalogue, on the Zag.js state machines. Behaviour only — every
+						pixel of styling is yours.
 					</p>
+
+					<dl class="metrics">
+						<div>
+							<dt>Updates, 6 months</dt>
+							<dd>11 <small>+ 15 for Zag engine</small></dd>
+						</div>
+						<div>
+							<dt>Users</dt>
+							<dd>43 675 <small>Svelte downloads / month</small></dd>
+						</div>
+						<div>
+							<dt>Stars</dt>
+							<dd>5 394 <small>ark repo</small></dd>
+						</div>
+					</dl>
+
+					<div class="args">
+						<div class="pros">
+							<h3>For</h3>
+							<ul>
+								<li>67 components, including Tour and Steps, which neither other library has</li>
+								<li>The most actively developed: its Zag engine shipped 15 releases in 6 months</li>
+								<li>Commercially backed by the Chakra ecosystem, whose React line pulls 6.6M
+									downloads a month</li>
+								<li>You own the styling, same as shadcn</li>
+							</ul>
+						</div>
+						<div class="cons">
+							<h3>Against</h3>
+							<ul>
+								<li><strong>Its Svelte binding is ~1% of Ark's usage</strong>: 43 675 a month
+									against 3.86M for React</li>
+								<li>Ships no styling at all — every component is yours to dress</li>
+								<li>Its Tour needed two undocumented CSS fixes to work at all in this build</li>
+								<li>The most verbose: 495 lines of component code here against 81 for Skeleton</li>
+							</ul>
+						</div>
+					</div>
+
+					<p class="longevity">
+						<strong>Longevity for Svelte:</strong> the engine is the safest bet of all — Zag.js pulls
+						5.09M downloads a month and powers Chakra, Ark and Skeleton alike, so it outlives any one
+						wrapper. The risk is specific to Svelte: the binding is a minority citizen in its own
+						ecosystem and could be deprioritised against React.
+					</p>
+
+					<a class="demo" href="./ark/">Open the demo</a>
 				</li>
-			</ul>
+
+				<li>
+					<div class="head">
+						<span class="rank">3</span>
+						<h2>Skeleton</h2>
+						<a href="https://www.skeleton.dev/" target="_blank" rel="noopener noreferrer">
+							skeleton.dev ↗
+						</a>
+					</div>
+					<p class="summary">
+						A complete design system installed as a dependency: themes, utility classes and
+						components, decided for you.
+					</p>
+
+					<dl class="metrics">
+						<div>
+							<dt>Updates, 6 months</dt>
+							<dd>6 <small>releases</small></dd>
+						</div>
+						<div>
+							<dt>Users</dt>
+							<dd>155 680 <small>downloads / month</small></dd>
+						</div>
+						<div>
+							<dt>Stars</dt>
+							<dd>6 061 <small>skeleton repo</small></dd>
+						</div>
+					</dl>
+
+					<div class="args">
+						<div class="pros">
+							<h3>For</h3>
+							<ul>
+								<li>Fewest files to maintain: 2 component files here against 11 and 12</li>
+								<li>24 themes provided; switching one is a single word</li>
+								<li>Smallest JavaScript bundle: 192 kB against 339 and 382</li>
+								<li>Runs on Zag.js, so the engine underneath is as safe as Ark's</li>
+							</ul>
+						</div>
+						<div class="cons">
+							<h3>Against</h3>
+							<ul>
+								<li>Smallest install base: 155 680 a month, 25× below bits-ui</li>
+								<li>Slowest cadence of the three: 6 releases in 6 months</li>
+								<li>Its interactive components ship no styling — the CSS layer covers forms,
+									buttons, cards and tables only</li>
+								<li>No theme is black and white; the least colourful, hamlindigo, still sits at
+									chroma 0.052</li>
+							</ul>
+						</div>
+					</div>
+
+					<p class="longevity">
+						<strong>Longevity for Svelte:</strong> the weakest position, for one structural reason.
+						It is the only one of the three that owns your visual layer — with shadcn and Ark the CSS
+						is in your repo, so an abandonment is survivable. Here you would inherit a design system
+						you did not write. Its Zag engine would survive; its styling would not.
+					</p>
+
+					<a class="demo" href="./skeleton/">Open the demo</a>
+				</li>
+			</ol>
 
 			<footer>
-				Static demos. The data is a fixed snapshot bundled with the build - no API is called, the
-				login is decorative and nothing is saved. Click the ConnectionCode header inside any demo to
-				come back here.
+				<p>
+					Figures measured on 17 September 2026. Updates are non-prerelease npm versions published in
+					the previous 180 days; users are npm downloads over the last month, the closest public
+					proxy for adoption; stars come from GitHub.
+				</p>
+				<p>
+					Static demos. The data is a fixed snapshot bundled with the build — no API is called, the
+					login is decorative and nothing is saved. Click the ConnectionCode header inside any demo to
+					come back here.
+				</p>
 			</footer>
 		</main>
 	</body>
