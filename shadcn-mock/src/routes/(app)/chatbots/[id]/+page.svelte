@@ -138,19 +138,21 @@
 					<div class="grid gap-4 sm:grid-cols-2">
 						<div class="space-y-2">
 							<Label for="mainModel">Main model</Label>
-							<Select id="mainModel" name="mainModel" bind:value={draft.mainModel}>
-								{#each models as model (model)}
-									<option value={model}>{model}</option>
-								{/each}
-							</Select>
+							<Select
+								id="mainModel"
+								name="mainModel"
+								options={models}
+								bind:value={draft.mainModel}
+							/>
 						</div>
 						<div class="space-y-2">
 							<Label for="lightModel">Light model</Label>
-							<Select id="lightModel" name="lightModel" bind:value={draft.lightModel}>
-								{#each models as model (model)}
-									<option value={model}>{model}</option>
-								{/each}
-							</Select>
+							<Select
+								id="lightModel"
+								name="lightModel"
+								options={models}
+								bind:value={draft.lightModel}
+							/>
 						</div>
 					</div>
 

@@ -23,9 +23,14 @@ two `app.css` files differ by **zero CSS rules** (only their comments differ). T
 real divergence is four behavioural components — avatar, slider, switch, select —
 plus the pages that consume them.
 
-The one visible difference is the **model dropdown** on a chat bot's edit screen:
-shadcn falls back to a styled native `<select>`, Ark renders its own listbox. Open
-one in each tab to see it.
+Both now render a real listbox for the **model dropdown** on a chat bot's edit
+screen — bits-ui's `Select` on one side, Ark's on the other — so even that no longer
+looks different. The comparison is therefore not about appearance at all; it is
+about catalogue breadth, longevity and how much component code you carry.
+
+What the two listboxes cost, as a measure of that: Ark ships the whole anatomy in
+one namespace, while the bits-ui version needs trigger, portal, content, viewport,
+two scroll buttons and items wired by hand.
 
 ## Run locally
 
