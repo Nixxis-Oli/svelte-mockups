@@ -7,7 +7,7 @@
 
 	<div class="flex gap-2">
 		<select
-			class="select grow text-sm capitalize"
+			class="select min-w-0 grow text-sm capitalize"
 			value={theme.name}
 			onchange={(event) => theme.setName(event.currentTarget.value as ThemeName)}
 		>

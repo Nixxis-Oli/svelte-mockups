@@ -18,8 +18,8 @@
 <div class="space-y-2">
 	<p class="text-muted-foreground text-xs font-semibold tracking-wider uppercase">Palette</p>
 
-	<div class="flex items-center gap-2">
-		<div class="flex grow gap-1.5">
+	<div class="flex flex-wrap items-center gap-2">
+		<div class="flex min-w-0 grow flex-wrap gap-1.5">
 			{#each palettes as name (name)}
 				<button
 					type="button"
@@ -28,7 +28,7 @@
 					aria-pressed={theme.name === name}
 					onclick={() => theme.setName(name)}
 					class={cn(
-						'size-7 rounded-full border-2 transition-transform',
+						'size-7 shrink-0 rounded-full border-2 transition-transform',
 						theme.name === name
 							? 'border-foreground scale-110'
 							: 'border-transparent hover:scale-105'
@@ -51,6 +51,6 @@
 	</div>
 
 	<p class="text-muted-foreground text-xs">
-		4 palettes, each written by hand in <code class="font-mono">app.css</code>.
+		5 palettes, each written by hand in <code class="font-mono">app.css</code>.
 	</p>
 </div>
