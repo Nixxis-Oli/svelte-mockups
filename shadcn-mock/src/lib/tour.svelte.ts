@@ -62,7 +62,12 @@ export function createTour(steps: TourStep[]) {
 			return;
 		}
 
-		rect = document.querySelector(selector)?.getBoundingClientRect() ?? null;
+		const measured = document.querySelector(selector)?.getBoundingClientRect();
+
+		// A hidden target - the sidebar on a phone, for instance - measures zero.
+		// Treating that as "no target" lets the step fall back to a centred panel
+		// rather than spotlighting a point in the corner.
+		rect = measured && measured.width > 0 && measured.height > 0 ? measured : null;
 	}
 
 	return {

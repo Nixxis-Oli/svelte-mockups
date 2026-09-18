@@ -7,6 +7,9 @@ export const DEFAULT_WIDTH = 288;
 export const MIN_WIDTH = 200;
 export const MAX_WIDTH = 480;
 
+/** Matches Tailwind's `md` breakpoint, where the sidebar becomes a column. */
+const DESKTOP = '(min-width: 768px)';
+
 export function clampWidth(value: number): number {
 	if (!Number.isFinite(value)) {
 		return DEFAULT_WIDTH;
@@ -40,6 +43,23 @@ export function createSidebar() {
 	let width = $state(initial.width);
 	let dragging = $state(false);
 
+	// Below md the sidebar slides over the content, so it needs its own open
+	// state: `collapsed` is a desktop layout concern and defaults to open, which
+	// would leave the overlay covering the whole page on a phone.
+	let desktop = $state(browser ? window.matchMedia(DESKTOP).matches : true);
+	let mobileOpen = $state(false);
+
+	if (browser) {
+		window.matchMedia(DESKTOP).addEventListener('change', (event) => {
+			desktop = event.matches;
+
+			// Growing past the breakpoint must not leave the overlay latched open.
+			if (event.matches) {
+				mobileOpen = false;
+			}
+		});
+	}
+
 	function persist(key: string, value: string) {
 		if (!browser) {
 			return;
@@ -66,9 +86,22 @@ export function createSidebar() {
 		get dragging() {
 			return dragging;
 		},
+		get desktop() {
+			return desktop;
+		},
+		get mobileOpen() {
+			return mobileOpen;
+		},
 		toggle() {
-			collapsed = !collapsed;
-			persist(COLLAPSED_KEY, collapsed ? '1' : '0');
+			if (desktop) {
+				collapsed = !collapsed;
+				persist(COLLAPSED_KEY, collapsed ? '1' : '0');
+			} else {
+				mobileOpen = !mobileOpen;
+			}
+		},
+		closeMobile() {
+			mobileOpen = false;
 		},
 		// Ctrl/Cmd+B, the shortcut shadcn's own sidebar uses.
 		handleShortcut(event: KeyboardEvent) {
@@ -80,7 +113,7 @@ export function createSidebar() {
 		// Pointer capture keeps the drag alive when the cursor outruns the handle,
 		// which it always does on a fast drag.
 		startResize(event: PointerEvent) {
-			if (collapsed) {
+			if (collapsed || !desktop) {
 				return;
 			}
 

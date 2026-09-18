@@ -64,6 +64,15 @@
 	Both run transition-[left,width] duration-200 ease-linear, so they stay in step.
 -->
 <div class="bg-background flex min-h-screen w-full">
+	{#if sidebar.mobileOpen}
+		<button
+			type="button"
+			aria-label="Close navigation"
+			class="fixed inset-0 z-40 bg-black/50 md:hidden"
+			onclick={() => sidebar.closeMobile()}
+		></button>
+	{/if}
+
 	<div
 		class={cn(
 			'relative hidden shrink-0 bg-transparent md:block',
@@ -76,9 +85,10 @@
 		data-tour="sidebar"
 		data-state={sidebar.collapsed ? 'collapsed' : 'expanded'}
 		class={cn(
-			'bg-card fixed inset-y-0 z-20 hidden h-svh w-(--sidebar-width) flex-col border-r md:flex',
+			'bg-card fixed inset-y-0 z-50 flex h-svh w-(--sidebar-width) flex-col border-r md:z-20',
 			sidebar.dragging ? '' : 'transition-[left] duration-200 ease-linear',
-			sidebar.collapsed ? 'left-[calc(var(--sidebar-width)*-1)]' : 'left-0'
+			sidebar.mobileOpen ? 'left-0' : 'left-[calc(var(--sidebar-width)*-1)]',
+			sidebar.collapsed ? 'md:left-[calc(var(--sidebar-width)*-1)]' : 'md:left-0'
 		)}
 	>
 		<a
@@ -163,7 +173,7 @@
 			onpointerdown={(event) => sidebar.startResize(event)}
 			onkeydown={(event) => sidebar.handleResizeKey(event)}
 			ondblclick={() => sidebar.resetWidth()}
-			class="group absolute inset-y-0 -right-1 z-10 w-2 cursor-col-resize touch-none focus:outline-none"
+			class="group absolute inset-y-0 -right-1 z-10 hidden w-2 cursor-col-resize touch-none focus:outline-none md:block"
 		>
 			<span
 				class="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 transition-colors bg-border group-hover:bg-primary group-focus-visible:bg-primary {sidebar.dragging ? 'bg-primary' : ''}"

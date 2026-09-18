@@ -86,7 +86,7 @@
 
 <svelte:head><title>Chat bots - ConnectionCode</title></svelte:head>
 
-<header class="bg-card border-b px-8 py-6">
+<header class="bg-card border-b px-4 py-5 md:px-8 md:py-6">
 	<div class="flex flex-wrap items-end justify-between gap-4">
 		<div>
 			<h1 class="text-2xl font-semibold tracking-tight">Chat bots</h1>
@@ -95,11 +95,16 @@
 			</p>
 		</div>
 
-		<div class="flex items-center gap-3">
+		<div class="flex w-full flex-wrap items-center gap-3 sm:w-auto">
 			<ProductTour />
 			<Badge variant="muted">{bots.length} contexts</Badge>
-			<div data-tour="filter">
-				<Input class="w-56" type="search" placeholder="Filter bots..." bind:value={query} />
+			<div data-tour="filter" class="min-w-0 flex-1 sm:flex-none">
+				<Input
+					class="w-full sm:w-56"
+					type="search"
+					placeholder="Filter bots..."
+					bind:value={query}
+				/>
 			</div>
 			<Button
 				variant={selecting ? 'secondary' : 'outline'}
@@ -114,7 +119,7 @@
 
 {#if selecting}
 	<!-- Sticky under the breadcrumb bar so the actions stay reachable while scrolling. -->
-	<div class="bg-muted/60 sticky top-[3.25rem] z-10 border-b px-8 py-3 backdrop-blur">
+	<div class="bg-muted/60 sticky top-[3.25rem] z-10 border-b px-4 py-3 backdrop-blur md:px-8">
 		<div class="flex flex-wrap items-center gap-3">
 			<Checkbox
 				checked={allVisibleSelected}
@@ -144,7 +149,7 @@
 	</div>
 {/if}
 
-<div class="space-y-5 p-8">
+<div class="space-y-5 p-4 md:p-8">
 	{#if notice}
 		<Card class="border-primary/40 bg-primary/5 flex flex-wrap items-center gap-3 p-4 text-sm">
 			<span class="font-medium">{notice}</span>

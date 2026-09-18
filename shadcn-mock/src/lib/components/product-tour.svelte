@@ -129,7 +129,7 @@
 	{/if}
 {/if}
 
-{#if tour.open && tour.step?.target}
+{#if tour.open && tour.rect && tour.step}
 	<!-- Anchored to the highlighted element. Popover keeps it in view, flipping
 		 side when there is no room. -->
 	<Popover.Root open>
