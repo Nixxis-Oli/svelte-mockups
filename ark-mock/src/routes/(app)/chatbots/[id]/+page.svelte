@@ -11,7 +11,8 @@
 	import Select from '$lib/components/ui/select.svelte';
 	import Slider from '$lib/components/ui/slider.svelte';
 	import Switch from '$lib/components/ui/switch.svelte';
-	import { formatDateTime, formatRelative } from '$lib/format';
+	import DateTooltip from '$lib/components/ui/date-tooltip.svelte';
+	import { formatDate, formatDateTime, formatRelative } from '$lib/format';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -197,12 +198,20 @@
 					<dl class="space-y-3 text-sm">
 						<div class="flex justify-between gap-3">
 							<dt class="text-muted-foreground">Created</dt>
-							<dd class="text-right font-medium">{formatDateTime(data.bot.createdAt)}</dd>
+							<dd class="text-right font-medium">
+								<DateTooltip
+									label={formatDate(data.bot.createdAt)}
+									detail={formatDateTime(data.bot.createdAt)}
+								/>
+							</dd>
 						</div>
 						<div class="flex justify-between gap-3">
 							<dt class="text-muted-foreground">Modified</dt>
-							<dd class="text-right font-medium" title={formatDateTime(data.bot.updatedAt)}>
-								{formatRelative(data.bot.updatedAt)}
+							<dd class="text-right font-medium">
+								<DateTooltip
+									label={formatRelative(data.bot.updatedAt)}
+									detail={formatDateTime(data.bot.updatedAt)}
+								/>
 							</dd>
 						</div>
 						<div class="flex justify-between gap-3">
