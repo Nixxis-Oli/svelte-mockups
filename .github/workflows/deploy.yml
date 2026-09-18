@@ -26,6 +26,16 @@ jobs:
         with:
           node-version: 22
 
+      - name: Build the shared package
+        # The applications import it by name, so its dist/ has to exist before
+        # any of them is built. Not published to a registry yet - the mockups
+        # depend on it through a file: path inside this repository.
+        run: |
+          set -e
+          cd nixxis-ui
+          npm ci
+          npm run build
+
       - name: Build the mockup
         run: |
           set -e
