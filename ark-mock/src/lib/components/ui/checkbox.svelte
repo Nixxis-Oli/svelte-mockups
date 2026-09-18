@@ -5,14 +5,26 @@
 
 	// `onchange` is for the header checkbox, whose state is derived from the
 	// selection rather than owned by it - binding would fight the derivation.
+	//
+	// `presentational` is for the one inside a card: there the whole card is the
+	// control, so the box must only show state. Ark renders Root as a <label>
+	// wrapping a hidden <input>, so a click inside a card would fire twice - once
+	// from the label and once from the input it forwards to.
 	type Props = {
 		checked: boolean;
 		label?: string;
 		class?: string;
+		presentational?: boolean;
 		onchange?: (checked: boolean) => void;
 	};
 
-	let { checked = $bindable(), label, class: className, onchange }: Props = $props();
+	let {
+		checked = $bindable(),
+		label,
+		class: className,
+		presentational = false,
+		onchange
+	}: Props = $props();
 </script>
 
 <Checkbox.Root
@@ -21,8 +33,9 @@
 		checked = details.checked === true;
 		onchange?.(checked);
 	}}
-	aria-label={label}
-	class="inline-flex shrink-0"
+	aria-label={presentational ? undefined : label}
+	aria-hidden={presentational ? 'true' : undefined}
+	class={cn('inline-flex shrink-0', presentational && 'pointer-events-none')}
 >
 	<Checkbox.Control
 		class={cn(
@@ -34,5 +47,10 @@
 			<Check class="size-3.5" />
 		</Checkbox.Indicator>
 	</Checkbox.Control>
-	<Checkbox.HiddenInput />
+
+	<!-- Omitted when presentational: no form participation, and no input to
+		 forward a second click from. -->
+	{#if !presentational}
+		<Checkbox.HiddenInput />
+	{/if}
 </Checkbox.Root>

@@ -188,7 +188,7 @@
 						<div class="flex items-start justify-between gap-3">
 							<div class="flex min-w-0 items-start gap-3">
 								{#if selecting}
-									<Checkbox checked={isSelected} label="Select {bot.name}" class="mt-1" />
+									<Checkbox checked={isSelected} presentational class="mt-1" />
 								{/if}
 								<div class="min-w-0">
 									<h2 class="truncate text-lg font-semibold">{bot.name || 'Untitled'}</h2>
