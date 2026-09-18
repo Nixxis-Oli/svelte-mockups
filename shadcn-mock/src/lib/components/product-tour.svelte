@@ -1,128 +1,158 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button.svelte';
-	import { Portal } from '@ark-ui/svelte/portal';
-	import { Tour, useTour, type TourStepDetails } from '@ark-ui/svelte/tour';
+	import { createTour, spotlightPath, type TourStep } from '$lib/tour.svelte';
 	import CircleHelp from '@lucide/svelte/icons/circle-help';
 	import X from '@lucide/svelte/icons/x';
+	import { Popover } from 'bits-ui';
 
-	// The guided walkthrough neither Skeleton nor bits-ui offers: a spotlight over a
-	// real element of the page, a backdrop over the rest, and next/prev controls.
-	// Targets resolve lazily, so a step whose element is absent still shows.
-	const steps: TourStepDetails[] = [
+	// A guided walkthrough built on bits-ui alone. Popover does the anchoring and
+	// the flipping through its customAnchor prop; the step machine, the backdrop
+	// and the spotlight are ours - see $lib/tour.svelte.ts.
+	const steps: TourStep[] = [
 		{
 			id: 'welcome',
-			type: 'dialog',
 			title: 'Welcome to ConnectionCode',
-			description: 'A short tour of the chat bots screen. Two minutes, no more.',
-			actions: [{ label: 'Start', action: 'next' }]
+			description: 'A short tour of the chat bots screen. Two minutes, no more.'
 		},
 		{
 			id: 'sidebar',
-			type: 'tooltip',
+			target: '[data-tour="sidebar"]',
 			placement: 'right',
-			target: () => document.querySelector('[data-tour="sidebar"]'),
 			title: 'Navigation',
-			description: 'Every section lives here. Ctrl+B hides the panel when you need room.',
-			actions: [
-				{ label: 'Back', action: 'prev' },
-				{ label: 'Next', action: 'next' }
-			]
+			description: 'Every section lives here. Ctrl+B hides the panel when you need room.'
 		},
 		{
 			id: 'filter',
-			type: 'tooltip',
+			target: '[data-tour="filter"]',
 			placement: 'bottom',
-			target: () => document.querySelector('[data-tour="filter"]'),
 			title: 'Find a bot',
-			description: 'Filters on name, description and bot name as you type.',
-			actions: [
-				{ label: 'Back', action: 'prev' },
-				{ label: 'Next', action: 'next' }
-			]
+			description: 'Filters on name, description and bot name as you type.'
 		},
 		{
 			id: 'card',
-			type: 'tooltip',
+			target: '[data-tour="first-card"]',
 			placement: 'bottom',
-			target: () => document.querySelector('[data-tour="first-card"]'),
 			title: 'Open a bot',
-			description: 'Each card opens the edit screen: identity, personality, models.',
-			actions: [
-				{ label: 'Back', action: 'prev' },
-				{ label: 'Done', action: 'dismiss' }
-			]
+			description: 'Each card opens the edit screen: identity, personality, models.'
 		}
 	];
 
-	const tour = useTour(() => ({ steps }));
+	const tour = createTour(steps);
+
+	// The spotlight is drawn in viewport coordinates, so it has to follow
+	// scrolling and resizing. The popover repositions itself.
+	$effect(() => {
+		if (!tour.open) {
+			return;
+		}
+
+		const remeasure = () => tour.measure();
+
+		window.addEventListener('scroll', remeasure, true);
+		window.addEventListener('resize', remeasure);
+
+		return () => {
+			window.removeEventListener('scroll', remeasure, true);
+			window.removeEventListener('resize', remeasure);
+		};
+	});
+
+	function onkeydown(event: KeyboardEvent) {
+		if (!tour.open) {
+			return;
+		}
+
+		if (event.key === 'Escape') {
+			tour.dismiss();
+		} else if (event.key === 'ArrowRight') {
+			tour.next();
+		} else if (event.key === 'ArrowLeft') {
+			tour.prev();
+		}
+	}
 </script>
 
-<!-- The trigger ships with the tour rather than being wired from the page: no
-	 bind:this, no component-instance typing to get right. -->
-<Button variant="outline" size="sm" onclick={() => tour().start()}>
+<svelte:window {onkeydown} />
+
+<Button variant="outline" size="sm" onclick={() => tour.start()}>
 	<CircleHelp class="size-4" />
 	Take the tour
 </Button>
 
-<Tour.Root {tour}>
-	<Portal>
-		<!-- Position and z-index come from Zag and from the tour rules in app.css;
-			 only the paint is ours. -->
-		<!-- backdrop-filter is clipped by the spotlight cut-out Zag draws with
-			 clip-path, so the highlighted element stays sharp while everything
-			 around it blurs. A lighter tint than a plain grey veil, since the
-			 blur already separates foreground from background. -->
-		<Tour.Backdrop class="bg-black/40 backdrop-blur-xs" />
-		<Tour.Spotlight class="rounded-lg outline-2 outline-white/70" />
-
-		<!--
-			Zag only injects positioning styles for `tooltip` steps (isTooltipStep).
-			A `dialog` step gets none, so without the rules below it lands in normal
-			document flow at the end of the portal - off screen, with a scrollbar.
-			Inline styles win, so these classes never fight the tooltip positioning.
-		-->
-		<Tour.Positioner
-			class="data-[type=dialog]:fixed data-[type=dialog]:inset-0 data-[type=dialog]:z-[calc(var(--tour-layer)+var(--tour-z-index))] data-[type=dialog]:flex data-[type=dialog]:items-center data-[type=dialog]:justify-center data-[type=dialog]:p-4"
+{#snippet card()}
+	<div class="flex items-start justify-between gap-3">
+		<h2 class="font-semibold">{tour.step?.title}</h2>
+		<button
+			type="button"
+			onclick={() => tour.dismiss()}
+			aria-label="Close tour"
+			class="text-muted-foreground hover:text-foreground shrink-0 transition-colors"
 		>
-			<Tour.Content
-				class="bg-popover text-popover-foreground w-80 max-w-[calc(100vw-2rem)] space-y-3 rounded-lg border p-4 shadow-xl"
-			>
-				<Tour.Arrow>
-					<Tour.ArrowTip class="border-t border-l" />
-				</Tour.Arrow>
+			<X class="size-4" />
+		</button>
+	</div>
 
-				<div class="flex items-start justify-between gap-3">
-					<!-- No children: Title and Description render the current step's text. -->
-					<Tour.Title class="font-semibold" />
-					<Tour.CloseTrigger
-						class="text-muted-foreground hover:text-foreground shrink-0 transition-colors"
-						aria-label="Close tour"
-					>
-						<X class="size-4" />
-					</Tour.CloseTrigger>
-				</div>
+	<p class="text-muted-foreground text-sm">{tour.step?.description}</p>
 
-				<Tour.Description class="text-muted-foreground text-sm" />
+	<div class="flex items-center justify-between gap-3 border-t pt-3">
+		<span class="text-muted-foreground text-xs">{tour.progress}</span>
 
-				<div class="flex items-center justify-between gap-3 border-t pt-3">
-					<Tour.ProgressText class="text-muted-foreground text-xs" />
+		<div class="flex gap-2">
+			{#if !tour.isFirst}
+				<Button variant="outline" size="sm" onclick={() => tour.prev()}>Back</Button>
+			{/if}
+			<Button size="sm" onclick={() => tour.next()}>
+				{tour.isLast ? 'Done' : tour.isFirst ? 'Start' : 'Next'}
+			</Button>
+		</div>
+	</div>
+{/snippet}
 
-					<div class="flex gap-2">
-						<Tour.Actions>
-							{#snippet children(actions)}
-								{#each actions() as action (action.label)}
-									<Tour.ActionTrigger
-										{action}
-										class={action.action === 'prev'
-											? 'border-input hover:bg-accent hover:text-accent-foreground inline-flex h-8 items-center rounded-md border px-3 text-xs font-medium transition-colors'
-											: 'bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-8 items-center rounded-md px-3 text-xs font-medium transition-colors'}
-									/>
-								{/each}
-							{/snippet}
-						</Tour.Actions>
-					</div>
-				</div>
-			</Tour.Content>
-		</Tour.Positioner>
-	</Portal>
-</Tour.Root>
+{#if tour.open}
+	<!-- Clipped with the even-odd rule, so the highlighted element keeps its own
+		 colours and stays sharp through the blur. -->
+	<div
+		class="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs"
+		style:clip-path={spotlightPath(tour.rect)}
+		onclick={() => tour.dismiss()}
+		role="presentation"
+	></div>
+
+	{#if tour.rect}
+		<div
+			class="ring-background/70 pointer-events-none fixed z-40 rounded-[10px] ring-2"
+			style:left="{tour.rect.x - 8}px"
+			style:top="{tour.rect.y - 8}px"
+			style:width="{tour.rect.width + 16}px"
+			style:height="{tour.rect.height + 16}px"
+		></div>
+	{/if}
+{/if}
+
+{#if tour.open && tour.step?.target}
+	<!-- Anchored to the highlighted element. Popover keeps it in view, flipping
+		 side when there is no room. -->
+	<Popover.Root open>
+		<Popover.Content
+			customAnchor={tour.step.target}
+			side={tour.step.placement ?? 'bottom'}
+			sideOffset={14}
+			trapFocus={false}
+			escapeKeydownBehavior="ignore"
+			interactOutsideBehavior="ignore"
+			class="bg-popover text-popover-foreground z-50 w-80 max-w-[calc(100vw-2rem)] space-y-3 rounded-lg border p-4 shadow-xl"
+		>
+			<Popover.Arrow class="text-popover" width={12} height={6} />
+			{@render card()}
+		</Popover.Content>
+	</Popover.Root>
+{:else if tour.open}
+	<!-- No target: a centred panel rather than an anchored one. -->
+	<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+		<div
+			class="bg-popover text-popover-foreground w-80 max-w-[calc(100vw-2rem)] space-y-3 rounded-lg border p-4 shadow-xl"
+		>
+			{@render card()}
+		</div>
+	</div>
+{/if}

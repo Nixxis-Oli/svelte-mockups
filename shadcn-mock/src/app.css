@@ -204,31 +204,6 @@
 	}
 }
 
-/* ---------------------------------------------------------------------------
-   4. Ark UI Tour layering.
-
-   Ark is added alongside bits-ui purely for its Tour, which bits-ui has no
-   equivalent for. Both sit under this same token file, so the tour inherits the
-   app's palette with nothing extra.
-
-   Zag stacks the tour parts with --tour-layer (backdrop 0, spotlight 1,
-   positioner 2) added to --tour-z-index, a base the library never defines. The
-   positioner's inline `z-index: var(--z-index)` therefore evaluates to an
-   invalid calc() and falls back to auto, leaving the step content under the
-   backdrop and unclickable. Defining the base makes all three layers resolve.
-
-   These rules are unlayered, so they win over Tailwind's z-* utilities.
-   --------------------------------------------------------------------------- */
-
-:root {
-	--tour-z-index: 40;
-}
-
-[data-scope='tour'][data-part='backdrop'],
-[data-scope='tour'][data-part='spotlight'] {
-	z-index: calc(var(--tour-layer) + var(--tour-z-index));
-}
-
 /* Default sidebar width when the pre-paint script cannot run. */
 :root {
 	--sidebar-width: 288px;
