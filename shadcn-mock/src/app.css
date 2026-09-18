@@ -8,6 +8,10 @@
    descendants, so :root-level rules flip too. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Tailwind only generates classes it can see. A dependency's markup is
+   outside the default scan, so the shared package has to be named. */
+@source "../node_modules/@nixxis-oli/ui/dist";
+
 /* ---------------------------------------------------------------------------
    1. Neutrals and shape - shared by every palette.
 

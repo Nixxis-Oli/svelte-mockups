@@ -11,6 +11,7 @@
 	import { session } from '$lib/session.svelte';
 	import { createSidebar, MAX_WIDTH, MIN_WIDTH } from '$lib/sidebar.svelte';
 	import { cn } from '$lib/utils';
+	import { ToolbarActions, type AppEntry } from '@nixxis-oli/ui';
 	import PanelLeft from '@lucide/svelte/icons/panel-left';
 
 	import { goto } from '$app/navigation';
@@ -19,6 +20,17 @@
 
 	const initials = $derived((session.user ?? '?').slice(0, 2).toUpperCase());
 	const crumbs = $derived(buildBreadcrumbs(page.url.pathname, page.data));
+
+	// Supplied by the host application: the shared package never builds URLs
+	// or knows which applications exist.
+	const apps: AppEntry[] = [
+		{ id: 'admin', name: 'Admin', href: '#', initials: 'AD', color: '#2563eb' },
+		{ id: 'studio', name: 'Bot studio', href: '#', initials: 'BS', color: '#7c3aed' },
+		{ id: 'reporting', name: 'Reporting', href: '#', initials: 'RE', color: '#059669' },
+		{ id: 'supervision', name: 'Supervision', href: '#', initials: 'SU', color: '#d97706' },
+		{ id: 'agents', name: 'Agent desk', href: '#', initials: 'AG', color: '#dc2626' },
+		{ id: 'settings', name: 'Settings', href: '#', initials: 'SE', color: '#475569' }
+	];
 
 	const sidebar = createSidebar();
 
@@ -197,6 +209,14 @@
 					{/each}
 				</ol>
 			</nav>
+
+			<ToolbarActions
+				{apps}
+				currentAppId="admin"
+				user={{ name: session.user ?? 'Signed in', email: session.user ?? undefined }}
+				onSignOut={() => session.signOut()}
+				class="ms-auto"
+			/>
 		</div>
 
 		{@render children()}

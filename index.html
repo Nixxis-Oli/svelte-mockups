@@ -80,20 +80,6 @@
 				gap: 0.5rem 0.75rem;
 			}
 
-			.rank {
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				width: 1.6rem;
-				height: 1.6rem;
-				border-radius: 50%;
-				background: var(--fg);
-				color: var(--bg);
-				font-size: 0.85rem;
-				font-weight: 700;
-				flex: none;
-			}
-
 			h2 {
 				margin: 0;
 				font-size: 1.15rem;
@@ -236,15 +222,12 @@
 		<main>
 			<h1>Svelte UI mockups</h1>
 			<p class="lead">
-				The same admin screens built twice, to compare the two shortlisted component libraries.
-				Ranked best first.
-				Sign in to any demo with any email and password.
+				An admin-screen mockup on shadcn-svelte. Sign in with any email and password.
 			</p>
 
 			<ol>
 				<li>
 					<div class="head">
-						<span class="rank">1</span>
 						<h2>shadcn-svelte</h2>
 						<a href="https://www.shadcn-svelte.com/" target="_blank" rel="noopener noreferrer">
 							shadcn-svelte.com ↗
@@ -286,7 +269,7 @@
 							<ul>
 								<li>bits-ui and shadcn-svelte share one lead maintainer (63% and 55% of commits):
 									one person, two layers</li>
-								<li>No tour component — this demo borrows Ark's</li>
+								<li>No tour component in the catalogue — this demo carries its own, written on the Popover primitive</li>
 								<li>11 component files to maintain here, all written and owned by you</li>
 								<li>Copied code means no automatic upstream fixes</li>
 							</ul>
@@ -303,66 +286,6 @@
 					<a class="demo" href="./shadcn/">Open the demo</a>
 				</li>
 
-				<li>
-					<div class="head">
-						<span class="rank">2</span>
-						<h2>Ark UI</h2>
-						<a href="https://ark-ui.com/" target="_blank" rel="noopener noreferrer">
-							ark-ui.com ↗
-						</a>
-					</div>
-					<p class="summary">
-						The widest headless catalogue, on the Zag.js state machines. Behaviour only — every
-						pixel of styling is yours.
-					</p>
-
-					<dl class="metrics">
-						<div>
-							<dt>Updates, 6 months</dt>
-							<dd>11 <small>+ 15 for Zag engine</small></dd>
-						</div>
-						<div>
-							<dt>Users</dt>
-							<dd>43 675 <small>Svelte downloads / month</small></dd>
-						</div>
-						<div>
-							<dt>Stars</dt>
-							<dd>5 394 <small>ark repo</small></dd>
-						</div>
-					</dl>
-
-					<div class="args">
-						<div class="pros">
-							<h3>For</h3>
-							<ul>
-								<li>67 components, including Tour and Steps, which neither other library has</li>
-								<li>The most actively developed: its Zag engine shipped 15 releases in 6 months</li>
-								<li>Commercially backed by the Chakra ecosystem, whose React line pulls 6.6M
-									downloads a month</li>
-								<li>You own the styling, same as shadcn</li>
-							</ul>
-						</div>
-						<div class="cons">
-							<h3>Against</h3>
-							<ul>
-								<li><strong>Its Svelte binding is ~1% of Ark's usage</strong>: 43 675 a month
-									against 3.86M for React</li>
-								<li>Ships no styling at all — every component is yours to dress</li>
-								<li>Its Tour needed two undocumented CSS fixes to work at all in this build</li>
-								<li>More component code to carry: 495 lines here against 327 for shadcn</li>
-							</ul>
-						</div>
-					</div>
-
-					<p class="longevity">
-						<strong>Longevity for Svelte:</strong> the engine is the safest bet of all — Zag.js pulls
-						5.09M downloads a month and powers Chakra, Ark and Skeleton alike, so it outlives any one
-						wrapper, this one included. The risk is specific to Svelte: the binding is a minority citizen in its own
-						ecosystem and could be deprioritised against React.
-					</p>
-
-					<a class="demo" href="./ark/">Open the demo</a>
-				</li>
 			</ol>
 
 			<footer>

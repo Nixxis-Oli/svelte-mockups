@@ -26,13 +26,13 @@ jobs:
         with:
           node-version: 22
 
-      - name: Build the two mockups
+      - name: Build the mockup
         run: |
           set -e
           mkdir -p _site
           cp index.html _site/index.html
 
-          for project in shadcn ark; do
+          for project in shadcn; do
             cd "$project-mock"
             npm ci
             # Project pages are served from /<repo>/, and each mockup from a
