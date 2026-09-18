@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { personalityAxes } from '$lib/axes';
-	import AxisSlider from '$lib/components/axis-slider.svelte';
+	import { wordingFor } from '$lib/axis-wording';
+	import AxisControl from '$lib/components/axis-control.svelte';
+	import PromptPreview from '$lib/components/prompt-preview.svelte';
 	import Badge from '$lib/components/ui/badge.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import Card from '$lib/components/ui/card.svelte';
@@ -117,19 +119,29 @@
 						<h2 class="text-lg font-semibold">Personality</h2>
 						<p class="text-muted-foreground mt-1 text-sm">
 							The five <code class="font-mono">&lt;axis&gt;Level</code> settings the guided setup
-							writes, each on a 1-5 scale.
+							writes. Most run 1-5; warmth and initiative carry three positions.
 						</p>
 					</div>
 
 					{#each personalityAxes as axis (axis.key)}
-						<AxisSlider
+						<AxisControl
 							name={axis.key}
 							label={axis.label}
 							low={axis.low}
 							high={axis.high}
+							levels={axis.levels}
+							wording={wordingFor(axis.key, draft.axes[axis.key])}
 							bind:value={draft.axes[axis.key]}
 						/>
 					{/each}
+
+					<div class="border-t pt-5">
+						<PromptPreview
+							botName={draft.botName}
+							companyName={draft.companyName}
+							axes={draft.axes}
+						/>
+					</div>
 				</Card>
 
 				<Card class="space-y-4 p-6">

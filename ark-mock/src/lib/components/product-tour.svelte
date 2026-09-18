@@ -72,7 +72,7 @@
 			 clip-path, so the highlighted element stays sharp while everything
 			 around it blurs. A lighter tint than a plain grey veil, since the
 			 blur already separates foreground from background. -->
-		<Tour.Backdrop class="bg-black/40 backdrop-blur-sm" />
+		<Tour.Backdrop class="bg-black/40 backdrop-blur-xs" />
 		<Tour.Spotlight class="rounded-lg outline-2 outline-white/70" />
 
 		<!--

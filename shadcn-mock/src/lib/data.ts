@@ -71,15 +71,17 @@ function readString(value: unknown, fallback = ''): string {
 	return typeof value === 'string' ? value : fallback;
 }
 
-// A level arrives as a string ("3") in the payload; clamp it into 1-5.
-function readLevel(value: unknown): number {
+// A level arrives as a string ("3") in the payload. Axes do not all share the
+// same ceiling, so a stored value above an axis's top is pulled down to it -
+// warmth 4 in the snapshot becomes 3 on a three-level scale.
+function readLevel(value: unknown, levels: number): number {
 	const parsed = Number(value);
 
 	if (!Number.isFinite(parsed)) {
-		return 3;
+		return Math.ceil(levels / 2);
 	}
 
-	return Math.min(5, Math.max(1, Math.round(parsed)));
+	return Math.min(levels, Math.max(1, Math.round(parsed)));
 }
 
 // The admin API exposes no description field on a context. The Angular app
@@ -156,7 +158,7 @@ export function getChatbot(id: string): ChatbotDetail | null {
 	const config = payload.config ?? {};
 
 	const axes = Object.fromEntries(
-		personalityAxes.map((axis) => [axis.key, readLevel(settings[axis.key])])
+		personalityAxes.map((axis) => [axis.key, readLevel(settings[axis.key], axis.levels)])
 	) as Record<AxisKey, number>;
 
 	return {
