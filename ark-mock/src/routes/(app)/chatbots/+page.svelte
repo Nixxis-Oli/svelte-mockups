@@ -3,6 +3,7 @@
 	import ProductTour from '$lib/components/product-tour.svelte';
 	import Badge from '$lib/components/ui/badge.svelte';
 	import Card from '$lib/components/ui/card.svelte';
+	import DateTooltip from '$lib/components/ui/date-tooltip.svelte';
 	import Input from '$lib/components/ui/input.svelte';
 	import { formatDate, formatDateTime, formatRelative } from '$lib/format';
 	import type { PageData } from './$types';
@@ -88,14 +89,20 @@
 					<dl class="grid grid-cols-2 gap-3 border-t pt-4 text-xs">
 						<div>
 							<dt class="text-muted-foreground">Created</dt>
-							<dd class="mt-0.5 font-medium" title={formatDateTime(bot.createdAt)}>
-								{formatDate(bot.createdAt)}
+							<dd class="mt-0.5 font-medium">
+								<DateTooltip
+									label={formatDate(bot.createdAt)}
+									detail={formatDateTime(bot.createdAt)}
+								/>
 							</dd>
 						</div>
 						<div>
 							<dt class="text-muted-foreground">Modified</dt>
-							<dd class="mt-0.5 font-medium" title={formatDateTime(bot.updatedAt)}>
-								{formatRelative(bot.updatedAt)}
+							<dd class="mt-0.5 font-medium">
+								<DateTooltip
+									label={formatRelative(bot.updatedAt)}
+									detail={formatDateTime(bot.updatedAt)}
+								/>
 							</dd>
 						</div>
 					</dl>
